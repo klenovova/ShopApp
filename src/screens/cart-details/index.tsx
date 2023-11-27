@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
 	View,
 	Text,
@@ -6,30 +6,20 @@ import {
 	FlatList,
 	TouchableOpacity,
 } from "react-native";
-import { black, darkWhite, navyBlue, royalBlue, white } from "../../colors";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../ShoppersStopStack";
-import { FONT_SIZES } from "../../constants";
-import { horizontalScale, verticalScale } from "../../scale";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { commonStyles } from "../../common-styles";
 import CartSummaryDetailStrip from "../../components/cart-summary-detail-strip";
 import Button from "../../components/button";
 import ProductInCart from "../../components/product-in-cart";
+import { useCartContext } from "../../context";
+import { cartDetailStyles } from "./styles";
 
 const CartDetails = () => {
-	const {
-		params: { cartItems, onAddToCart, onRemoveFromCart },
-	} = useRoute<
-		RouteProp<
-			{
-				CartDetails: StackParamList["CartDetails"];
-			},
-			"CartDetails"
-		>
-	>();
-
+	const { cartItems, onAddToCart, onRemoveFromCart } = useCartContext();
 	const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
+
 	const subTotalAmount = useMemo(() => {
 		let currentSubTotalAmount = 0;
 		cartItems.forEach((cartItem) => {
@@ -37,31 +27,16 @@ const CartDetails = () => {
 		});
 		return currentSubTotalAmount;
 	}, [JSON.stringify(cartItems)]);
+
 	return (
 		<ScrollView>
-			<View
-				style={{
-					flexDirection: "row",
-					alignItems: "center",
-					paddingHorizontal: horizontalScale(20),
-					paddingVertical: verticalScale(20),
-				}}
-			>
+			<View style={cartDetailStyles.header}>
 				<Button
 					iconName="chevron-left"
 					onPress={() => navigation.goBack()}
 					size={40}
 				/>
-				<Text
-					style={[
-						commonStyles.addFont,
-						{
-							color: black,
-							fontSize: FONT_SIZES.B1,
-							marginLeft: horizontalScale(20),
-						},
-					]}
-				>
+				<Text style={[commonStyles.addFont, cartDetailStyles.headerText]}>
 					Shopping Cart ({cartItems.length})
 				</Text>
 			</View>
@@ -76,31 +51,12 @@ const CartDetails = () => {
 				)}
 				keyExtractor={(productInCart) => `${productInCart.product.id}`}
 			/>
-			<TouchableOpacity
-				style={{
-					flexDirection: "row",
-					justifyContent: "flex-end",
-					paddingHorizontal: horizontalScale(20),
-				}}
-			>
-				<Text
-					style={[
-						commonStyles.addFont,
-						{ color: navyBlue, paddingVertical: verticalScale(10) },
-					]}
-				>
+			<TouchableOpacity style={cartDetailStyles.editButton}>
+				<Text style={[commonStyles.addFont, cartDetailStyles.editButton]}>
 					Edit
 				</Text>
 			</TouchableOpacity>
-			<View
-				style={{
-					paddingHorizontal: horizontalScale(20),
-					paddingVertical: verticalScale(15),
-					backgroundColor: darkWhite,
-					borderRadius: horizontalScale(12),
-					marginHorizontal: horizontalScale(10),
-				}}
-			>
+			<View style={cartDetailStyles.cartSummary}>
 				<CartSummaryDetailStrip
 					detailName="Subtotal"
 					detailValue={subTotalAmount}
@@ -110,21 +66,9 @@ const CartDetails = () => {
 					detailName="Total"
 					detailValue={subTotalAmount + 2}
 				/>
-				<TouchableOpacity
-					style={{
-						backgroundColor: navyBlue,
-						height: verticalScale(50),
-						justifyContent: "center",
-						alignItems: "center",
-						borderRadius: horizontalScale(20),
-						marginTop: verticalScale(20),
-					}}
-				>
+				<TouchableOpacity style={cartDetailStyles.cartSummaryCta}>
 					<Text
-						style={[
-							commonStyles.addFont,
-							{ color: white, fontSize: FONT_SIZES.B2 },
-						]}
+						style={[commonStyles.addFont, cartDetailStyles.cartSummaryCtaText]}
 					>
 						Proceed to checkout
 					</Text>

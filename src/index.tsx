@@ -36,7 +36,21 @@ const ShoppersStop = () => {
 		});
 	};
 
-	const onRemoveFromCart = (productId: number) => {};
+	const onRemoveFromCart = (productId: number) => {
+		setCartItems((prev) => {
+			const indexOfRemovingProduct = prev.findIndex(
+				(_product) => _product.product.id === productId
+			);
+			if (prev[indexOfRemovingProduct].count === 1) {
+				const newCart = [...prev];
+				return newCart.filter((cartItem) => cartItem.product.id !== productId);
+			} else {
+				const newCart = [...prev];
+				newCart[indexOfRemovingProduct].count -= 1;
+				return [...newCart];
+			}
+		});
+	};
 	return (
 		<CartContextProvider
 			value={{

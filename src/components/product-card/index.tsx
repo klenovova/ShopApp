@@ -8,6 +8,9 @@ import { productCardStyles } from "./styles";
 import { commonStyles } from "../../common-styles";
 import { getFormattedCurrency } from "../../utils";
 import FastImage from "react-native-fast-image";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from "../../ShoppersStopStack";
 
 interface Props {
 	product: Product;
@@ -17,8 +20,16 @@ interface Props {
 const ProductCard = ({ product, onAddToCart }: Props) => {
 	const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
 	const onHeartClick = () => setIsWishlisted((prev) => !prev);
+	const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
 	return (
-		<View style={[productCardStyles.productCard]}>
+		<TouchableOpacity
+			onPress={() =>
+				navigation.navigate("ProductDetails", {
+					productId: product.id,
+				})
+			}
+			style={[productCardStyles.productCard]}
+		>
 			<FastImage
 				source={{ uri: product.thumbnail }}
 				style={productCardStyles.productImage}
@@ -64,7 +75,7 @@ const ProductCard = ({ product, onAddToCart }: Props) => {
 					size={14}
 				/>
 			</TouchableOpacity>
-		</View>
+		</TouchableOpacity>
 	);
 };
 

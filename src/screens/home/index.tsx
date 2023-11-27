@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
-import { useHomepage } from "./hooks";
 import Cart from "../../components/cart";
 import { commonStyles } from "../../common-styles";
 import ProductCard from "../../components/product-card";
@@ -10,31 +9,21 @@ import { lightGrey } from "../../colors";
 import Icon from "../../components/icon";
 import ImageFallback from "../../assets/image-fallback.png";
 import FastImage from "react-native-fast-image";
-import { Product } from "../../interface";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../ShoppersStopStack";
 import { useCartContext } from "../../context";
+import { calculateCartCount } from "../../utils";
 
 const Home = () => {
-	const {
-		productList,
-		cartItems,
-		onAddToCart,
-		onRemoveFromCart,
-	} = useCartContext();
+	const { productList, cartItems, onAddToCart } = useCartContext();
 	const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
 
 	if (!productList?.products) {
 		return null;
 	}
 
-	const onCartClick = () =>
-		navigation.navigate("CartDetails", {
-			cartItems,
-			onAddToCart,
-			onRemoveFromCart,
-		});
+	const onCartClick = () => navigation.navigate("CartDetails");
 
 	return (
 		<ScrollView contentContainerStyle={[commonStyles.mainScreenContainer]}>
@@ -42,7 +31,7 @@ const Home = () => {
 				<View style={[commonStyles.spreadInARow, commonStyles.separatorMargin]}>
 					<Text style={homepageStyles.hey}>Hey, Arnab</Text>
 					<Cart
-						cartItemsCount={cartItems.length}
+						cartItemsCount={calculateCartCount(cartItems)}
 						onCartClick={onCartClick}
 						fromHomepage
 					/>

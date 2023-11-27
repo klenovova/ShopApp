@@ -2,12 +2,12 @@ import React from "react";
 import { Text, View } from "react-native";
 import Button from "../button";
 import { getFormattedCurrency } from "../../utils";
-import { horizontalScale, verticalScale } from "../../scale";
 import { commonStyles } from "../../common-styles";
 import Icon from "../icon";
-import { FONT_SIZES, iconVariants } from "../../constants";
-import { black, lightGrey } from "../../colors";
+import { iconVariants } from "../../constants";
+import { lightGrey } from "../../colors";
 import { Product } from "../../interface";
+import { productInCartStyles } from "./styles";
 
 interface Props {
 	productInCart: {
@@ -20,69 +20,36 @@ interface Props {
 
 const ProductInCart = ({ productInCart, addToCart, removeFromCart }: Props) => {
 	return (
-		<View
-			style={[
-				commonStyles.spreadInARow,
-				{
-					marginHorizontal: horizontalScale(20),
-					alignItems: "center",
-					borderBottomWidth: verticalScale(0.25),
-					borderBottomColor: lightGrey,
-					paddingVertical: verticalScale(10),
-				},
-			]}
-		>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
+		<View style={[commonStyles.spreadInARow, productInCartStyles.container]}>
+			<View style={productInCartStyles.rowCenter}>
 				<Icon
 					icon={{ name: "image", variant: iconVariants.feather }}
 					size={40}
 					color={lightGrey}
 				/>
-				<View style={{ marginLeft: horizontalScale(25) }}>
+				<View style={productInCartStyles.marginLeft}>
 					<Text
-						style={[
-							commonStyles.addFont,
-							{
-								color: black,
-								fontWeight: "bold",
-								fontSize: FONT_SIZES.B2,
-								maxWidth: horizontalScale(150),
-							},
-						]}
+						style={[commonStyles.addFont, productInCartStyles.productTitle]}
 						ellipsizeMode="tail"
 						numberOfLines={2}
 					>
 						{productInCart.product.title}
 					</Text>
 					<Text
-						style={[
-							commonStyles.addFont,
-							{
-								color: black,
-								fontSize: FONT_SIZES.B2,
-							},
-						]}
+						style={[commonStyles.addFont, productInCartStyles.productPrice]}
 					>
 						{getFormattedCurrency(productInCart.product.price)}
 					</Text>
 				</View>
 			</View>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
+			<View style={productInCartStyles.rowCenter}>
 				<Button
 					iconName="minus"
 					onPress={() => removeFromCart(productInCart.product.id)}
 					size={25}
 				/>
 				<Text
-					style={[
-						commonStyles.addFont,
-						{
-							color: black,
-							fontWeight: "bold",
-							fontSize: FONT_SIZES.B2,
-							marginHorizontal: horizontalScale(15),
-						},
-					]}
+					style={[commonStyles.addFont, productInCartStyles.productFrequency]}
 				>
 					{productInCart.count}
 				</Text>

@@ -1,9 +1,8 @@
 import React from "react";
 import { commonStyles } from "../../common-styles";
-import { horizontalScale } from "../../scale";
 import { getFormattedCurrency } from "../../utils";
-import { black, grey } from "../../colors";
 import { Text, View } from "react-native";
+import { cartSummaryDetailStripStyles } from "./styles";
 
 interface Props {
 	detailName: string;
@@ -15,11 +14,17 @@ const CartSummaryDetailStrip = ({ detailName, detailValue }: Props) => {
 		<View
 			style={[
 				commonStyles.spreadInARow,
-				{ paddingHorizontal: horizontalScale(15) },
+				cartSummaryDetailStripStyles.container,
 			]}
 		>
-			<Text style={[commonStyles.addFont, { color: grey }]}>{detailName}</Text>
-			<Text style={[commonStyles.addFont, { color: black, fontWeight: "500" }]}>
+			<Text
+				style={[commonStyles.addFont, cartSummaryDetailStripStyles.colorGrey]}
+			>
+				{detailName}
+			</Text>
+			<Text
+				style={[commonStyles.addFont, cartSummaryDetailStripStyles.colorBlack]}
+			>
 				{getFormattedCurrency(detailValue)}
 			</Text>
 		</View>

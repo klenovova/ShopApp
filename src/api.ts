@@ -1,9 +1,9 @@
 import { API_BASE_URL } from "./constants";
-import { ProductListingResponse } from "./interface";
+import { Product, ProductListingResponse } from "./interface";
 
 export const fetchProductList = async () => {
 	try {
-		const response = await fetch(API_BASE_URL);
+		const response = await fetch(`${API_BASE_URL}?limit=250`);
 		const data: ProductListingResponse = await response.json();
 		return data;
 	} catch (err) {
@@ -11,10 +11,11 @@ export const fetchProductList = async () => {
 	}
 };
 
-export const fetchProduct = async (productId: string) => {
+export const fetchProduct = async (productId: number) => {
 	try {
 		const response = await fetch(`${API_BASE_URL}/${productId}`);
-		return response;
+		const data: Product = await response.json();
+		return data;
 	} catch (err) {
 		console.log(err);
 	}
