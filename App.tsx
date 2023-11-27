@@ -1,15 +1,12 @@
-import { SafeAreaView } from "react-native";
-import { reactQueryClient } from "./app/query-client";
 import { QueryClientProvider } from "react-query";
-import Home from "./app/screens/home";
+import ShoppersStop from "./src";
+import { reactQueryClient } from "./src/query-client";
 
 function App(): JSX.Element {
 	return (
-		<SafeAreaView>
-			<QueryClientProvider client={reactQueryClient}>
-				<Home />
-			</QueryClientProvider>
-		</SafeAreaView>
+		<QueryClientProvider client={reactQueryClient}>
+			<ShoppersStop />
+		</QueryClientProvider>
 	);
 }
 
