@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest",
     "cleanup": "rm -rf node_modules && rm -rf package-lock.json",
-    "gradle-clean": "cd android && gradlew clean"
+    "gradle-clean": "cd android && gradlew clean",
+    "make-release-build": "cd android && gradlew assembleRelease"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.9",

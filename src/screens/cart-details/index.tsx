@@ -15,6 +15,7 @@ import Button from "../../components/button";
 import ProductInCart from "../../components/product-in-cart";
 import { useCartContext } from "../../context";
 import { cartDetailStyles } from "./styles";
+import { calculateCartCount } from "../../utils";
 
 const CartDetails = () => {
 	const { cartItems, onAddToCart, onRemoveFromCart } = useCartContext();
@@ -37,7 +38,7 @@ const CartDetails = () => {
 					size={40}
 				/>
 				<Text style={[commonStyles.addFont, cartDetailStyles.headerText]}>
-					Shopping Cart ({cartItems.length})
+					Shopping Cart ({calculateCartCount(cartItems)})
 				</Text>
 			</View>
 			<FlatList
@@ -52,7 +53,13 @@ const CartDetails = () => {
 				keyExtractor={(productInCart) => `${productInCart.product.id}`}
 			/>
 			<TouchableOpacity style={cartDetailStyles.editButton}>
-				<Text style={[commonStyles.addFont, cartDetailStyles.editButton]}>
+				<Text
+					style={[
+						commonStyles.addFont,
+						cartDetailStyles.editButton,
+						cartDetailStyles.editText,
+					]}
+				>
 					Edit
 				</Text>
 			</TouchableOpacity>
