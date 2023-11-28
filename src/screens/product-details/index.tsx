@@ -8,11 +8,23 @@ import Button from "../../components/button";
 import Cart from "../../components/cart";
 import { useCartContext } from "../../context";
 import { calculateCartCount, getFormattedCurrency } from "../../utils";
-import { lightBlack, mustardYellow } from "../../colors";
+import {
+	grey,
+	heartRed,
+	lightBlack,
+	lightGrey,
+	mustardYellow,
+} from "../../colors";
 import { useQuery } from "react-query";
 import { fetchProduct } from "../../api";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { productDetailsStyles } from "./styles";
+import Carousel from "react-native-reanimated-carousel";
+import FastImage from "react-native-fast-image";
+import { horizontalScale, verticalScale } from "../../scale";
+import { useState } from "react";
+import { iconVariants, STALE_TIME } from "../../constants";
+import Icon from "../../components/icon";
 
 const ProductDetails = () => {
 	const {
@@ -30,14 +42,15 @@ const ProductDetails = () => {
 		["fetching-product-by-id", productId],
 		() => fetchProduct(productId),
 		{
-			onSuccess: (data) => console.log("RESPONSE", data),
-			onError: (err) => console.error(err),
-			staleTime: 5 * 60 * 60 * 1000,
+			staleTime: STALE_TIME,
 		}
 	);
 
 	const { cartItems, onAddToCart } = useCartContext();
 	const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
+	const [currentImage, setCurrentImage] = useState(0);
+	const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
+	const onHeartClick = () => setIsWishlisted((prev) => !prev);
 
 	if (!productData) return <></>;
 	return (
@@ -54,7 +67,9 @@ const ProductDetails = () => {
 				/>
 			</View>
 			<View style={productDetailsStyles.title}>
-				<Text style={[commonStyles.addFont]}>{productData.brand}</Text>
+				<Text style={[commonStyles.addFont, productDetailsStyles.brandName]}>
+					{productData.brand}
+				</Text>
 				<Text style={[commonStyles.addFont, productDetailsStyles.productName]}>
 					{productData.title}
 				</Text>
@@ -68,6 +83,57 @@ const ProductDetails = () => {
 					<Text style={[commonStyles.addFont, productDetailsStyles.reviewText]}>
 						110 Reviews
 					</Text>
+				</View>
+			</View>
+			<View style={productDetailsStyles.descriptionContainer}>
+				<Carousel
+					data={productData.images}
+					renderItem={({ item }) => (
+						<>
+							<FastImage
+								source={{ uri: item }}
+								style={productDetailsStyles.carouselItems}
+								resizeMode="center"
+							/>
+						</>
+					)}
+					loop
+					pagingEnabled
+					onSnapToItem={(currentCarouselItem) =>
+						setCurrentImage(currentCarouselItem)
+					}
+					width={horizontalScale(320)}
+					height={verticalScale(160)}
+				/>
+				<TouchableOpacity
+					onPress={onHeartClick}
+					style={productDetailsStyles.wishlistIcon}
+				>
+					<Icon
+						icon={{
+							name: isWishlisted ? "heart" : "hearto",
+							variant: iconVariants.antDesign,
+						}}
+						color={isWishlisted ? heartRed : grey}
+						size={20}
+					/>
+				</TouchableOpacity>
+				<View
+					style={{
+						flexDirection: "row",
+					}}
+				>
+					{Array.from({ length: productData.images.length }).map((_, index) => (
+						<View
+							key={index}
+							style={[
+								productDetailsStyles.pageTab,
+								currentImage === index
+									? productDetailsStyles.selectedPageTab
+									: {},
+							]}
+						/>
+					))}
 				</View>
 			</View>
 			<View style={productDetailsStyles.priceDetails}>

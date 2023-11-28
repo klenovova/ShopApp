@@ -56,24 +56,33 @@ const CartDetails = () => {
 					Edit
 				</Text>
 			</TouchableOpacity>
-			<View style={cartDetailStyles.cartSummary}>
-				<CartSummaryDetailStrip
-					detailName="Subtotal"
-					detailValue={subTotalAmount}
-				/>
-				<CartSummaryDetailStrip detailName="Delivery" detailValue={2} />
-				<CartSummaryDetailStrip
-					detailName="Total"
-					detailValue={subTotalAmount + 2}
-				/>
-				<TouchableOpacity style={cartDetailStyles.cartSummaryCta}>
-					<Text
-						style={[commonStyles.addFont, cartDetailStyles.cartSummaryCtaText]}
-					>
-						Proceed to checkout
-					</Text>
-				</TouchableOpacity>
-			</View>
+			{!!cartItems.length ? (
+				<View style={cartDetailStyles.cartSummary}>
+					<CartSummaryDetailStrip
+						detailName="Subtotal"
+						detailValue={subTotalAmount}
+					/>
+					<CartSummaryDetailStrip detailName="Delivery" detailValue={2} />
+					<CartSummaryDetailStrip
+						detailName="Total"
+						detailValue={subTotalAmount + 2}
+					/>
+					<TouchableOpacity style={cartDetailStyles.cartSummaryCta}>
+						<Text
+							style={[
+								commonStyles.addFont,
+								cartDetailStyles.cartSummaryCtaText,
+							]}
+						>
+							Proceed to checkout
+						</Text>
+					</TouchableOpacity>
+				</View>
+			) : (
+				<Text style={[commonStyles.addFont, cartDetailStyles.errorMessage]}>
+					You don't have anything on your cart right now.
+				</Text>
+			)}
 		</ScrollView>
 	);
 };

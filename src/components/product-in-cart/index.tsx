@@ -8,6 +8,8 @@ import { iconVariants } from "../../constants";
 import { lightGrey } from "../../colors";
 import { Product } from "../../interface";
 import { productInCartStyles } from "./styles";
+import FastImage from "react-native-fast-image";
+import { verticalScale } from "../../scale";
 
 interface Props {
 	productInCart: {
@@ -22,11 +24,19 @@ const ProductInCart = ({ productInCart, addToCart, removeFromCart }: Props) => {
 	return (
 		<View style={[commonStyles.spreadInARow, productInCartStyles.container]}>
 			<View style={productInCartStyles.rowCenter}>
-				<Icon
-					icon={{ name: "image", variant: iconVariants.feather }}
-					size={40}
-					color={lightGrey}
-				/>
+				{productInCart.product.thumbnail ? (
+					<FastImage
+						source={{ uri: productInCart.product.thumbnail }}
+						resizeMode="cover"
+						style={productInCartStyles.productThumbnail}
+					/>
+				) : (
+					<Icon
+						icon={{ name: "image", variant: iconVariants.feather }}
+						size={40}
+						color={lightGrey}
+					/>
+				)}
 				<View style={productInCartStyles.marginLeft}>
 					<Text
 						style={[commonStyles.addFont, productInCartStyles.productTitle]}

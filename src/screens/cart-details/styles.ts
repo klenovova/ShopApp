@@ -43,4 +43,9 @@ export const cartDetailStyles = StyleSheet.create({
 		color: white,
 		fontSize: FONT_SIZES.B2,
 	},
+	errorMessage: {
+		padding: horizontalScale(20),
+		color: black,
+		fontSize: FONT_SIZES.H2,
+	},
 });

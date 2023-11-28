@@ -4,15 +4,14 @@ import { CartContextProvider } from "./context";
 import { useQuery } from "react-query";
 import { fetchProductList } from "./api";
 import { CartItem, Product } from "./interface";
+import { STALE_TIME } from "./constants";
 
 const ShoppersStop = () => {
 	const { data: productList, isLoading: isProductListLoading } = useQuery(
 		["fetching-product-list"],
 		() => fetchProductList(),
 		{
-			onSuccess: (data) => console.log("RESPONSE", data),
-			onError: (err) => console.error(err),
-			staleTime: 5 * 60 * 60 * 1000,
+			staleTime: STALE_TIME,
 		}
 	);
 

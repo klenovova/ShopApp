@@ -34,4 +34,9 @@ export const productInCartStyles = StyleSheet.create({
 		fontSize: FONT_SIZES.B2,
 		marginHorizontal: horizontalScale(15),
 	},
+	productThumbnail: {
+		height: verticalScale(50),
+		width: verticalScale(50),
+		borderRadius: verticalScale(4),
+	},
 });

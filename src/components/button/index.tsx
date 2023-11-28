@@ -10,6 +10,7 @@ interface Props {
 	onPress: () => void;
 	size: number;
 	iconVariant?: string;
+	iconColor?: string;
 }
 
 const Button = ({
@@ -17,6 +18,7 @@ const Button = ({
 	onPress,
 	size,
 	iconVariant = iconVariants.entypo,
+	iconColor = "black",
 }: Props) => {
 	return (
 		<TouchableOpacity
@@ -33,7 +35,7 @@ const Button = ({
 			<Icon
 				icon={{ name: iconName, variant: iconVariant }}
 				size={verticalScale(0.35 * size)}
-				color={black}
+				color={iconColor}
 			/>
 		</TouchableOpacity>
 	);

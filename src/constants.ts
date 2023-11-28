@@ -30,3 +30,5 @@ export const iconVariants = {
 	fontisto: "fontisto",
 	foundation: "foundation",
 };
+
+export const STALE_TIME = 5 * 60 * 60 * 1000;

@@ -1,5 +1,13 @@
 import { StyleSheet } from "react-native";
-import { black, lightGrey, navyBlue, white } from "../../colors";
+import {
+	black,
+	darkWhite,
+	grey,
+	lightGrey,
+	mustardYellow,
+	navyBlue,
+	white,
+} from "../../colors";
 import { FONT_SIZES } from "../../constants";
 import { horizontalScale, verticalScale } from "../../scale";
 
@@ -103,5 +111,31 @@ export const productDetailsStyles = StyleSheet.create({
 	description: {
 		color: lightGrey,
 		fontSize: FONT_SIZES.B1,
+	},
+	carouselItems: {
+		height: verticalScale(160),
+		width: horizontalScale(320),
+	},
+	pageTab: {
+		width: horizontalScale(20),
+		height: verticalScale(5),
+		borderRadius: verticalScale(5),
+		backgroundColor: grey,
+		marginRight: horizontalScale(2.5),
+	},
+	selectedPageTab: {
+		backgroundColor: mustardYellow,
+		width: horizontalScale(22),
+	},
+	wishlistIcon: {
+		position: "absolute",
+		top: horizontalScale(25),
+		right: horizontalScale(45),
+		height: verticalScale(40),
+		width: verticalScale(40),
+		borderRadius: verticalScale(8),
+		backgroundColor: darkWhite,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 });
